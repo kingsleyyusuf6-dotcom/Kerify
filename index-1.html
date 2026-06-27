@@ -1,0 +1,2173 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KERIFY - AI-Powered Identity Verification</title>
+    <meta name="description" content="KERIFY - Enterprise-grade AI Identity Verification SaaS Platform. Face verification, ID scanning, liveness detection, and fraud screening all in one place.">
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --surface-alt: #f1f5f9;
+            --border: #e2e8f0;
+            --text: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --primary-light: #eef2ff;
+            --success: #10b981;
+            --success-light: #ecfdf5;
+            --warning: #f59e0b;
+            --warning-light: #fffbeb;
+            --danger: #ef4444;
+            --danger-light: #fef2f2;
+            --info: #3b82f6;
+            --info-light: #eff6ff;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.04);
+            --radius-sm: 6px;
+            --radius: 10px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --transition: 0.2s ease;
+            --sidebar-w: 260px;
+            --topbar-h: 64px;
+            --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.5);
+            --glass-blur: blur(16px);
+        }
+        [data-theme="dark"] {
+            --bg: #0f172a;
+            --surface: #1e293b;
+            --surface-alt: #334155;
+            --border: #334155;
+            --text: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #64748b;
+            --primary: #818cf8;
+            --primary-hover: #6366f1;
+            --primary-light: #1e1b4b;
+            --success: #34d399;
+            --success-light: #064e3b;
+            --warning: #fbbf24;
+            --warning-light: #451a03;
+            --danger: #f87171;
+            --danger-light: #450a0a;
+            --info: #60a5fa;
+            --info-light: #0c1929;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+            --shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+            --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.5);
+            --glass-bg: rgba(30, 41, 59, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        html {
+            scroll-behavior: smooth;
+            font-size: 15px;
+        }
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: background var(--transition), color var(--transition);
+            overflow-x: hidden;
+        }
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color var(--transition);
+        }
+        a:hover {
+            color: var(--primary-hover);
+        }
+        button {
+            cursor: pointer;
+            font-family: inherit;
+            font-size: inherit;
+            border: none;
+            outline: none;
+            transition: all var(--transition);
+        }
+        input,
+        textarea,
+        select {
+            font-family: inherit;
+            font-size: inherit;
+            outline: none;
+            transition: border var(--transition), box-shadow var(--transition);
+        }
+        ul {
+            list-style: none;
+        }
+        img {
+            max-width: 100%;
+            display: block;
+        }
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            line-height: 1.25;
+            font-weight: 700;
+            color: var(--text);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: var(--radius);
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.01em;
+            white-space: nowrap;
+            transition: all var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.35);
+        }
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            box-shadow: 0 4px 16px rgba(99, 102, 241, 0.45);
+            transform: translateY(-1px);
+        }
+        .btn-secondary {
+            background: var(--surface-alt);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        .btn-secondary:hover {
+            background: var(--border);
+        }
+        .btn-danger {
+            background: var(--danger);
+            color: #fff;
+        }
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-secondary);
+        }
+        .btn-ghost:hover {
+            background: var(--surface-alt);
+        }
+        .btn-sm {
+            padding: 6px 14px;
+            font-size: 0.8rem;
+            border-radius: var(--radius-sm);
+        }
+        .btn-lg {
+            padding: 14px 28px;
+            font-size: 1rem;
+            border-radius: var(--radius-lg);
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition);
+        }
+        .card:hover {
+            box-shadow: var(--shadow-md);
+        }
+        .card-glass {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: var(--shadow-lg);
+        }
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+        .badge-success {
+            background: var(--success-light);
+            color: var(--success);
+        }
+        .badge-warning {
+            background: var(--warning-light);
+            color: var(--warning);
+        }
+        .badge-danger {
+            background: var(--danger-light);
+            color: var(--danger);
+        }
+        .badge-info {
+            background: var(--info-light);
+            color: var(--info);
+        }
+        .badge-neutral {
+            background: var(--surface-alt);
+            color: var(--text-secondary);
+        }
+        .input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--surface);
+            color: var(--text);
+            font-size: 0.9rem;
+            transition: all var(--transition);
+        }
+        .input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+        .input.error {
+            border-color: var(--danger);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        .form-error {
+            color: var(--danger);
+            font-size: 0.78rem;
+            margin-top: 4px;
+            display: none;
+        }
+        .form-error.visible {
+            display: block;
+        }
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2.5px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            display: inline-block;
+        }
+        .spinner-sm {
+            width: 14px;
+            height: 14px;
+            border-width: 2px;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes pulse {
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 0 12px rgba(99, 102, 241, 0);
+            }
+        }
+        @keyframes shimmer {
+            0% {
+                background-position: -200px 0;
+            }
+            100% {
+                background-position: 200px 0;
+            }
+        }
+        .skeleton {
+            background: linear-gradient(90deg, var(--surface-alt) 25%, var(--border) 50%, var(--surface-alt) 75%);
+            background-size: 400px 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: var(--radius-sm);
+        }
+        .fade-in {
+            animation: fadeIn 0.4s ease forwards;
+        }
+        .scale-in {
+            animation: scaleIn 0.3s ease forwards;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 0 24px;
+            height: var(--topbar-h);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all var(--transition);
+        }
+        .navbar-logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .navbar-logo .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--primary);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 800;
+            font-size: 1.1rem;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .nav-links a {
+            padding: 8px 16px;
+            border-radius: var(--radius);
+            font-weight: 500;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        .nav-links a:hover {
+            background: var(--surface-alt);
+            color: var(--text);
+        }
+        .theme-toggle {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius);
+            background: var(--surface-alt);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            transition: all var(--transition);
+        }
+        .theme-toggle:hover {
+            background: var(--border);
+        }
+        .hamburger {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius);
+            background: var(--surface-alt);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            z-index: 1001;
+        }
+        .hamburger span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background: var(--text);
+            border-radius: 2px;
+            transition: all var(--transition);
+        }
+
+        /* HERO */
+        .hero {
+            padding: 140px 24px 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero h1 {
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 16px;
+            position: relative;
+        }
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--primary), #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 32px;
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* SECTIONS */
+        .section {
+            padding: 80px 24px;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        .section-header h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+        }
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .feature-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            text-align: center;
+            transition: all var(--transition);
+        }
+        .feature-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: var(--radius);
+            background: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 1.6rem;
+        }
+        .feature-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            align-items: start;
+        }
+        .pricing-card {
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-xl);
+            padding: 32px;
+            text-align: center;
+            transition: all var(--transition);
+        }
+        .pricing-card.featured {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            transform: scale(1.03);
+        }
+        .pricing-card.featured::before {
+            content: 'Popular';
+            position: absolute;
+            top: -13px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: #fff;
+            padding: 4px 16px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+        .pricing-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 4px;
+        }
+        .pricing-price {
+            font-size: 2.8rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin: 12px 0;
+        }
+        .pricing-price span {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+        .pricing-features {
+            list-style: none;
+            text-align: left;
+            margin: 20px 0;
+        }
+        .pricing-features li {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        .pricing-features li::before {
+            content: '✓ ';
+            color: var(--success);
+            font-weight: 700;
+        }
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .testimonial-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+        }
+        .testimonial-card .quote {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+        .testimonial-card .author {
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        .faq-item {
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            margin-bottom: 8px;
+            overflow: hidden;
+            background: var(--surface);
+        }
+        .faq-question {
+            padding: 16px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            transition: background var(--transition);
+        }
+        .faq-question:hover {
+            background: var(--surface-alt);
+        }
+        .faq-answer {
+            padding: 0 20px 16px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            display: none;
+        }
+        .faq-item.open .faq-answer {
+            display: block;
+            animation: slideDown 0.25s ease;
+        }
+        .faq-item.open .faq-arrow {
+            transform: rotate(180deg);
+        }
+        .faq-arrow {
+            transition: transform var(--transition);
+            font-size: 0.8rem;
+        }
+        footer {
+            background: var(--surface-alt);
+            padding: 48px 24px 24px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+        footer .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 32px;
+            text-align: left;
+            margin-bottom: 32px;
+        }
+        footer h4 {
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+        }
+        footer a {
+            display: block;
+            padding: 4px 0;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* DASHBOARD LAYOUT */
+        .app-layout {
+            display: none;
+            min-height: 100vh;
+        }
+        .app-layout.active {
+            display: flex;
+        }
+        .sidebar {
+            width: var(--sidebar-w);
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            position: fixed;
+            top: var(--topbar-h);
+            left: 0;
+            bottom: 0;
+            overflow-y: auto;
+            padding: 16px 12px;
+            z-index: 100;
+            transition: transform var(--transition);
+        }
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: var(--radius);
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.88rem;
+            transition: all var(--transition);
+        }
+        .sidebar-nav a:hover,
+        .sidebar-nav a.active {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+        .sidebar-nav a .nav-icon {
+            width: 20px;
+            text-align: center;
+            font-size: 1rem;
+        }
+        .sidebar-section {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-muted);
+            padding: 16px 14px 6px;
+            font-weight: 700;
+        }
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-w);
+            padding: 24px;
+            padding-top: calc(var(--topbar-h) + 24px);
+            min-height: 100vh;
+            transition: margin var(--transition);
+        }
+        .topbar {
+            position: fixed;
+            top: 0;
+            left: var(--sidebar-w);
+            right: 0;
+            height: var(--topbar-h);
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            z-index: 99;
+            transition: left var(--transition);
+        }
+        .topbar-search {
+            position: relative;
+            max-width: 400px;
+            width: 100%;
+        }
+        .topbar-search input {
+            width: 100%;
+            padding: 9px 14px 9px 38px;
+            border: 2px solid var(--border);
+            border-radius: 100px;
+            background: var(--surface);
+            font-size: 0.85rem;
+        }
+        .topbar-search .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .topbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .notification-bell {
+            position: relative;
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius);
+            background: var(--surface-alt);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            font-size: 1.1rem;
+        }
+        .notification-bell .dot {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 8px;
+            height: 8px;
+            background: var(--danger);
+            border-radius: 50%;
+            border: 2px solid var(--surface);
+        }
+        .user-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            border: 2px solid var(--border);
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+        .stat-icon.blue {
+            background: var(--info-light);
+            color: var(--info);
+        }
+        .stat-icon.green {
+            background: var(--success-light);
+            color: var(--success);
+        }
+        .stat-icon.purple {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+        .stat-icon.orange {
+            background: var(--warning-light);
+            color: var(--warning);
+        }
+        .stat-value {
+            font-size: 1.6rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        .page-section {
+            display: none;
+            animation: fadeIn 0.35s ease;
+        }
+        .page-section.active {
+            display: block;
+        }
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -0.02em;
+        }
+        .table-container {
+            overflow-x: auto;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--surface);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+        table th,
+        table td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+        table th {
+            background: var(--surface-alt);
+            font-weight: 700;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text-muted);
+            position: sticky;
+            top: 0;
+            cursor: pointer;
+            user-select: none;
+        }
+        table th:hover {
+            color: var(--text);
+        }
+        table tr:hover td {
+            background: var(--surface-alt);
+        }
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 16px;
+        }
+        .pagination button {
+            width: 34px;
+            height: 34px;
+            border-radius: var(--radius-sm);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        .pagination button.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+        .pagination button:hover:not(.active) {
+            background: var(--surface-alt);
+        }
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.2s ease;
+        }
+        .modal-overlay.hidden {
+            display: none;
+        }
+        .modal {
+            background: var(--surface);
+            border-radius: var(--radius-xl);
+            padding: 28px;
+            max-width: 520px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-xl);
+            animation: scaleIn 0.25s ease;
+        }
+        .modal h3 {
+            margin-bottom: 16px;
+            font-size: 1.2rem;
+        }
+        .modal-close {
+            float: right;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--surface-alt);
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+        }
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 3000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+        }
+        .toast {
+            padding: 14px 20px;
+            border-radius: var(--radius);
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.85rem;
+            box-shadow: var(--shadow-lg);
+            animation: slideDown 0.3s ease;
+            pointer-events: all;
+            max-width: 380px;
+        }
+        .toast-success {
+            background: var(--success);
+        }
+        .toast-error {
+            background: var(--danger);
+        }
+        .toast-warning {
+            background: var(--warning);
+            color: #000;
+        }
+        .toast-info {
+            background: var(--info);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+            margin-bottom: 16px;
+        }
+        .chart-container canvas {
+            width: 100%;
+            height: 260px;
+            display: block;
+        }
+        .flex-row {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .flex-col {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .mt-16 {
+            margin-top: 16px;
+        }
+        .mb-16 {
+            margin-bottom: 16px;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .w-full {
+            width: 100%;
+        }
+        .hidden {
+            display: none !important;
+        }
+        .verification-result {
+            padding: 16px;
+            border-radius: var(--radius);
+            margin-top: 12px;
+            font-weight: 600;
+            text-align: center;
+        }
+        .verification-result.pass {
+            background: var(--success-light);
+            color: var(--success);
+        }
+        .verification-result.fail {
+            background: var(--danger-light);
+            color: var(--danger);
+        }
+        .verification-result.pending {
+            background: var(--warning-light);
+            color: var(--warning);
+        }
+        .progress-bar {
+            height: 8px;
+            background: var(--surface-alt);
+            border-radius: 100px;
+            overflow: hidden;
+            margin: 8px 0;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 100px;
+            transition: width 0.5s ease;
+        }
+        .risk-score-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 800;
+            margin: 12px auto;
+            border: 6px solid;
+        }
+        .risk-low {
+            border-color: var(--success);
+            color: var(--success);
+            background: var(--success-light);
+        }
+        .risk-medium {
+            border-color: var(--warning);
+            color: var(--warning);
+            background: var(--warning-light);
+        }
+        .risk-high {
+            border-color: var(--danger);
+            color: var(--danger);
+            background: var(--danger-light);
+        }
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .topbar {
+                left: 0;
+            }
+            .hamburger {
+                display: flex;
+            }
+            .pricing-card.featured {
+                transform: none;
+            }
+        }
+        @media (max-width: 768px) {
+            .hero {
+                padding: 100px 16px 48px;
+            }
+            .section {
+                padding: 48px 16px;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .nav-links {
+                display: none;
+            }
+            .nav-links.open {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: var(--topbar-h);
+                left: 0;
+                right: 0;
+                background: var(--surface);
+                padding: 16px;
+                border-bottom: 1px solid var(--border);
+                box-shadow: var(--shadow-lg);
+            }
+            .hamburger {
+                display: flex;
+            }
+            .features-grid,
+            .testimonial-grid {
+                grid-template-columns: 1fr;
+            }
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+            .flex-row {
+                flex-direction: column;
+            }
+        }
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .btn-lg {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+            table {
+                font-size: 0.75rem;
+            }
+            table th,
+            table td {
+                padding: 8px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ==================== LANDING NAVBAR ==================== -->
+    <nav class="navbar" id="landingNavbar">
+        <div class="navbar-logo"><span class="logo-icon">K</span>KERIFY</div>
+        <div class="nav-links" id="navLinks">
+            <a href="#hero">Home</a><a href="#features">Features</a><a href="#pricing">Pricing</a>
+            <a href="#testimonials">Testimonials</a><a href="#faq">FAQ</a><a href="#contact">Contact</a>
+            <button class="btn btn-primary btn-sm" onclick="KERIFY.router.navigate('login')">Sign In</button>
+            <button class="btn btn-secondary btn-sm" onclick="KERIFY.router.navigate('register')">Get Started</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle dark/light mode">🌓</button>
+            <button class="hamburger" id="hamburgerBtn" aria-label="Menu"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+
+    <!-- ==================== LANDING PAGES ==================== -->
+    <div id="landingPages">
+        <section class="hero" id="hero">
+            <div class="container">
+                <h1>AI-Powered <span>Identity Verification</span> for Modern Businesses</h1>
+                <p>KERIFY combines face verification, ID scanning, liveness detection, and fraud screening into one seamless SaaS platform. Verify identities in seconds with enterprise-grade accuracy.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary btn-lg" onclick="KERIFY.router.navigate('register')">Start Free Trial</button>
+                    <button class="btn btn-secondary btn-lg" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">Learn More</button>
+                </div>
+            </div>
+        </section>
+        <section class="section" id="features">
+            <div class="container">
+                <div class="section-header"><h2>Powerful Features</h2><p>Everything you need for robust identity verification</p></div>
+                <div class="features-grid">
+                    <div class="feature-card"><div class="feature-icon">👤</div><h3>Face Verification</h3><p>AI-driven facial matching with 99.9% accuracy. Compare selfies against ID documents instantly.</p></div>
+                    <div class="feature-card"><div class="feature-icon">🪪</div><h3>ID Document Scanning</h3><p>OCR extraction from passports, driver's licenses, and national IDs. Supports 190+ countries.</p></div>
+                    <div class="feature-card"><div class="feature-icon">👁️</div><h3>Liveness Detection</h3><p>Prevent spoofing with blink, smile, and head-turn challenges. Real-time 3D depth analysis.</p></div>
+                    <div class="feature-card"><div class="feature-icon">🛡️</div><h3>Fraud Screening</h3><p>Multi-layered risk assessment including device fingerprinting, IP reputation, and watchlist checks.</p></div>
+                    <div class="feature-card"><div class="feature-icon">📊</div><h3>Real-time Analytics</h3><p>Comprehensive dashboard with verification metrics, fraud alerts, and API usage tracking.</p></div>
+                    <div class="feature-card"><div class="feature-icon">🔌</div><h3>API Integration</h3><p>RESTful API with SDKs for Python, Node.js, and PHP. Webhook support for async workflows.</p></div>
+                </div>
+            </div>
+        </section>
+        <section class="section" id="how-it-works" style="background:var(--surface-alt);">
+            <div class="container">
+                <div class="section-header"><h2>How It Works</h2><p>Simple 4-step process to verify any identity</p></div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;text-align:center;">
+                    <div class="card"><div style="font-size:2.5rem;margin-bottom:8px;">📸</div><h3>1. Capture</h3><p>User uploads ID and takes a selfie</p></div>
+                    <div class="card"><div style="font-size:2.5rem;margin-bottom:8px;">🔍</div><h3>2. Analyze</h3><p>AI extracts data and matches faces</p></div>
+                    <div class="card"><div style="font-size:2.5rem;margin-bottom:8px;">✅</div><h3>3. Verify</h3><p>Liveness check and fraud screening</p></div>
+                    <div class="card"><div style="font-size:2.5rem;margin-bottom:8px;">📋</div><h3>4. Report</h3><p>Detailed verification report generated</p></div>
+                </div>
+            </div>
+        </section>
+        <section class="section" id="pricing">
+            <div class="container">
+                <div class="section-header"><h2>Simple Pricing</h2><p>Choose the plan that fits your verification needs</p></div>
+                <div class="pricing-grid">
+                    <div class="pricing-card"><h3>Starter</h3><div class="pricing-price">$49<span>/mo</span></div><ul class="pricing-features"><li>500 verifications/month</li><li>Face verification</li><li>ID scanning</li><li>Basic fraud screening</li><li>Email support</li></ul><button class="btn btn-secondary w-full" onclick="KERIFY.router.navigate('register')">Get Started</button></div>
+                    <div class="pricing-card featured"><h3>Professional</h3><div class="pricing-price">$199<span>/mo</span></div><ul class="pricing-features"><li>5,000 verifications/month</li><li>All verification types</li><li>Advanced fraud screening</li><li>Liveness detection</li><li>API access</li><li>Priority support</li></ul><button class="btn btn-primary w-full" onclick="KERIFY.router.navigate('register')">Start Free Trial</button></div>
+                    <div class="pricing-card"><h3>Enterprise</h3><div class="pricing-price">$799<span>/mo</span></div><ul class="pricing-features"><li>Unlimited verifications</li><li>Custom integrations</li><li>Dedicated support</li><li>SLA guarantee</li><li>On-premise option</li><li>Audit logs</li></ul><button class="btn btn-secondary w-full" onclick="KERIFY.router.navigate('register')">Contact Sales</button></div>
+                </div>
+            </div>
+        </section>
+        <section class="section" id="testimonials" style="background:var(--surface-alt);">
+            <div class="container">
+                <div class="section-header"><h2>Trusted by Companies</h2><p>What our customers say about KERIFY</p></div>
+                <div class="testimonial-grid">
+                    <div class="testimonial-card"><p class="quote">"KERIFY reduced our fraud rate by 87% in the first month. The integration was seamless and the API is a joy to work with."</p><p class="author">Sarah Chen, CTO @ FinTech Plus</p></div>
+                    <div class="testimonial-card"><p class="quote">"The liveness detection feature alone saved us from countless spoofing attempts. Highly recommend for any KYC workflow."</p><p class="author">Marcus Johnson, Head of Compliance</p></div>
+                    <div class="testimonial-card"><p class="quote">"We evaluated 6 providers and KERIFY stood out for accuracy, speed, and pricing. Our verification time dropped from 2 minutes to 8 seconds."</p><p class="author">Elena Rodriguez, Product Manager</p></div>
+                </div>
+            </div>
+        </section>
+        <section class="section" id="faq">
+            <div class="container" style="max-width:800px;">
+                <div class="section-header"><h2>Frequently Asked Questions</h2></div>
+                <div class="faq-item"><div class="faq-question" onclick="this.parentElement.classList.toggle('open')">What is KERIFY?<span class="faq-arrow">▼</span></div><div class="faq-answer">KERIFY is an AI-powered identity verification SaaS platform that helps businesses verify user identities using face matching, ID document scanning, liveness detection, and fraud screening.</div></div>
+                <div class="faq-item"><div class="faq-question" onclick="this.parentElement.classList.toggle('open')">How accurate is the face verification?<span class="faq-arrow">▼</span></div><div class="faq-answer">Our AI achieves 99.9% accuracy in face matching, using state-of-the-art deep learning models trained on diverse datasets covering all ethnicities and age groups.</div></div>
+                <div class="faq-item"><div class="faq-question" onclick="this.parentElement.classList.toggle('open')">Is my data secure?<span class="faq-arrow">▼</span></div><div class="faq-answer">Absolutely. We use AES-256 encryption at rest and TLS 1.3 in transit. We are SOC 2 Type II certified and GDPR compliant.</div></div>
+                <div class="faq-item"><div class="faq-question" onclick="this.parentElement.classList.toggle('open')">Can I integrate via API?<span class="faq-arrow">▼</span></div><div class="faq-answer">Yes! KERIFY offers a comprehensive REST API with SDKs for Python, Node.js, PHP, and Java. Webhook support enables async verification workflows.</div></div>
+            </div>
+        </section>
+        <section class="section" id="contact" style="background:var(--surface-alt);">
+            <div class="container" style="max-width:600px;text-align:center;">
+                <div class="section-header"><h2>Get In Touch</h2><p>Have questions? We'd love to hear from you.</p></div>
+                <form onsubmit="KERIFY.handleContactSubmit(event)" style="text-align:left;">
+                    <div class="form-group"><label>Name</label><input class="input" type="text" required placeholder="Your name"></div>
+                    <div class="form-group"><label>Email</label><input class="input" type="email" required placeholder="you@company.com"></div>
+                    <div class="form-group"><label>Message</label><textarea class="input" rows="4" required placeholder="How can we help?"></textarea></div>
+                    <button type="submit" class="btn btn-primary w-full">Send Message</button>
+                </form>
+            </div>
+        </section>
+        <footer>
+            <div class="container">
+                <div class="footer-grid">
+                    <div><h4>KERIFY</h4><a href="#hero">Home</a><a href="#features">Features</a><a href="#pricing">Pricing</a></div>
+                    <div><h4>Product</h4><a href="#">API Docs</a><a href="#">SDKs</a><a href="#">Changelog</a></div>
+                    <div><h4>Company</h4><a href="#">About</a><a href="#">Blog</a><a href="#">Careers</a></div>
+                    <div><h4>Legal</h4><a href="#">Privacy Policy</a><a href="#">Terms of Service</a><a href="#">GDPR</a></div>
+                </div>
+                <p style="color:var(--text-muted);font-size:0.8rem;">&copy; 2026 KERIFY. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- ==================== AUTH PAGES ==================== -->
+    <div id="authPages" class="hidden" style="min-height:100vh;display:none;align-items:center;justify-content:center;padding:24px;">
+        <div class="card-glass" style="max-width:440px;width:100%;" id="authCard">
+            <div id="loginForm" class="page-section active">
+                <h2 style="text-align:center;margin-bottom:20px;">Sign In to KERIFY</h2>
+                <form onsubmit="KERIFY.auth.login(event)">
+                    <div class="form-group"><label>Email</label><input class="input" type="email" id="loginEmail" required placeholder="demo@kerify.com"></div>
+                    <div class="form-group"><label>Password</label><input class="input" type="password" id="loginPassword" required placeholder="••••••••" minlength="6"></div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+                        <label style="font-size:0.85rem;display:flex;align-items:center;gap:6px;cursor:pointer;"><input type="checkbox" id="rememberMe"> Remember me</label>
+                        <a href="#" onclick="KERIFY.router.navigate('forgot-password');return false;" style="font-size:0.85rem;">Forgot password?</a>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-full">Sign In</button>
+                </form>
+                <p style="text-align:center;margin-top:16px;font-size:0.85rem;">Don't have an account? <a href="#" onclick="KERIFY.router.navigate('register');return false;">Register</a></p>
+                <p style="text-align:center;font-size:0.75rem;color:var(--text-muted);margin-top:8px;">Demo: demo@kerify.com / password123</p>
+            </div>
+            <div id="registerForm" class="page-section">
+                <h2 style="text-align:center;margin-bottom:20px;">Create Account</h2>
+                <form onsubmit="KERIFY.auth.register(event)">
+                    <div class="form-group"><label>Full Name</label><input class="input" type="text" id="regName" required placeholder="John Doe"></div>
+                    <div class="form-group"><label>Email</label><input class="input" type="email" id="regEmail" required placeholder="you@company.com"></div>
+                    <div class="form-group"><label>Password</label><input class="input" type="password" id="regPassword" required placeholder="Min 6 characters" minlength="6"></div>
+                    <div class="form-group"><label>Company</label><input class="input" type="text" id="regCompany" placeholder="Your company (optional)"></div>
+                    <button type="submit" class="btn btn-primary w-full">Create Account</button>
+                </form>
+                <p style="text-align:center;margin-top:16px;font-size:0.85rem;">Already have an account? <a href="#" onclick="KERIFY.router.navigate('login');return false;">Sign In</a></p>
+            </div>
+            <div id="forgotPasswordForm" class="page-section">
+                <h2 style="text-align:center;margin-bottom:20px;">Reset Password</h2>
+                <form onsubmit="KERIFY.auth.forgotPassword(event)">
+                    <div class="form-group"><label>Email</label><input class="input" type="email" required placeholder="you@company.com"></div>
+                    <button type="submit" class="btn btn-primary w-full">Send Reset Link</button>
+                </form>
+                <p style="text-align:center;margin-top:16px;font-size:0.85rem;"><a href="#" onclick="KERIFY.router.navigate('login');return false;">Back to Sign In</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== APP LAYOUT (DASHBOARD) ==================== -->
+    <div class="app-layout" id="appLayout">
+        <aside class="sidebar" id="sidebar">
+            <nav class="sidebar-nav">
+                <div class="sidebar-section">Main</div>
+                <a href="#dashboard" class="active" data-nav="dashboard"><span class="nav-icon">📊</span> Dashboard</a>
+                <a href="#verification" data-nav="verification"><span class="nav-icon">👤</span> Verification</a>
+                <a href="#id-verification" data-nav="id-verification"><span class="nav-icon">🪪</span> ID Verification</a>
+                <a href="#liveness" data-nav="liveness"><span class="nav-icon">👁️</span> Liveness Detection</a>
+                <a href="#fraud-screening" data-nav="fraud-screening"><span class="nav-icon">🛡️</span> Fraud Screening</a>
+                <div class="sidebar-section">Management</div>
+                <a href="#billing" data-nav="billing"><span class="nav-icon">💳</span> Billing</a>
+                <a href="#api-management" data-nav="api-management"><span class="nav-icon">🔌</span> API Management</a>
+                <a href="#reports" data-nav="reports"><span class="nav-icon">📋</span> Reports</a>
+                <a href="#users" data-nav="users"><span class="nav-icon">👥</span> Users</a>
+                <div class="sidebar-section">Settings</div>
+                <a href="#profile" data-nav="profile"><span class="nav-icon">⚙️</span> Profile</a>
+                <a href="#settings" data-nav="settings"><span class="nav-icon">🔧</span> Settings</a>
+                <a href="#admin" data-nav="admin"><span class="nav-icon">🔐</span> Admin Panel</a>
+            </nav>
+        </aside>
+        <div class="topbar" id="topbar">
+            <button class="hamburger" id="sidebarToggle" aria-label="Toggle sidebar" style="display:none;"><span></span><span></span><span></span></button>
+            <div class="topbar-search"><span class="search-icon">🔍</span><input type="text" id="globalSearch" placeholder="Search anything..." oninput="KERIFY.search(this.value)"></div>
+            <div class="topbar-actions">
+                <button class="notification-bell" onclick="KERIFY.toggleNotifications()" aria-label="Notifications">🔔<span class="dot" id="notifDot"></span></button>
+                <div class="user-avatar" id="userAvatarBtn" onclick="KERIFY.router.navigate('profile')" title="Profile">JD</div>
+                <button class="btn btn-ghost btn-sm" onclick="KERIFY.auth.logout()">Logout</button>
+            </div>
+        </div>
+        <main class="main-content" id="mainContent">
+            <!-- Dashboard -->
+            <div class="page-section active" id="page-dashboard">
+                <h1 class="page-title">Dashboard</h1>
+                <div class="stats-grid">
+                    <div class="stat-card"><div class="stat-icon blue">📋</div><div><div class="stat-value" id="statTotalVerifications">1,247</div><div class="stat-label">Total Verifications</div></div></div>
+                    <div class="stat-card"><div class="stat-icon green">✅</div><div><div class="stat-value">94.8%</div><div class="stat-label">Pass Rate</div></div></div>
+                    <div class="stat-card"><div class="stat-icon purple">⚡</div><div><div class="stat-value">8.2s</div><div class="stat-label">Avg. Verification Time</div></div></div>
+                    <div class="stat-card"><div class="stat-icon orange">🚨</div><div><div class="stat-value" id="statFraudAlerts">23</div><div class="stat-label">Fraud Alerts</div></div></div>
+                </div>
+                <div class="flex-row">
+                    <div class="card" style="flex:1;min-width:300px;"><h3 style="margin-bottom:12px;">Verification Volume</h3><div class="chart-container"><canvas id="chartVerifications"></canvas></div></div>
+                    <div class="card" style="flex:1;min-width:300px;"><h3 style="margin-bottom:12px;">API Usage</h3><div class="chart-container"><canvas id="chartApiUsage"></canvas></div></div>
+                </div>
+                <div class="card mt-16">
+                    <h3 style="margin-bottom:12px;">Recent Activity</h3>
+                    <div class="table-container"><table><thead><tr><th>User</th><th>Type</th><th>Status</th><th>Date</th></tr></thead><tbody id="recentActivityTable"></tbody></table></div>
+                </div>
+            </div>
+            <!-- Verification -->
+            <div class="page-section" id="page-verification">
+                <h1 class="page-title">Face Verification</h1>
+                <div class="card" style="max-width:600px;">
+                    <h3>Upload Selfie for Verification</h3>
+                    <div class="form-group"><label>Upload Image</label><input type="file" class="input" accept="image/*" id="faceUpload" onchange="KERIFY.previewImage(event,'facePreview')"></div>
+                    <div id="facePreview" style="max-width:250px;margin:12px auto;border-radius:var(--radius-lg);overflow:hidden;display:none;"></div>
+                    <button class="btn btn-primary w-full mt-16" onclick="KERIFY.runFaceVerification()">Verify Face</button>
+                    <div id="faceResult" class="verification-result hidden"></div>
+                    <div class="progress-bar hidden" id="faceProgress"><div class="progress-bar-fill" style="width:0%;"></div></div>
+                </div>
+                <div class="card mt-16"><h3>Verification History</h3><div class="table-container"><table><thead><tr><th>Date</th><th>Name</th><th>Confidence</th><th>Status</th></tr></thead><tbody id="faceHistoryTable"></tbody></table></div></div>
+            </div>
+            <!-- ID Verification -->
+            <div class="page-section" id="page-id-verification">
+                <h1 class="page-title">ID Document Verification</h1>
+                <div class="flex-row">
+                    <div class="card" style="flex:1;min-width:280px;"><h3>Upload ID Front</h3><input type="file" class="input" accept="image/*" id="idFrontUpload" onchange="KERIFY.previewImage(event,'idFrontPreview')"><div id="idFrontPreview" style="max-width:100%;margin-top:12px;border-radius:var(--radius);overflow:hidden;display:none;"></div></div>
+                    <div class="card" style="flex:1;min-width:280px;"><h3>Upload ID Back</h3><input type="file" class="input" accept="image/*" id="idBackUpload" onchange="KERIFY.previewImage(event,'idBackPreview')"><div id="idBackPreview" style="max-width:100%;margin-top:12px;border-radius:var(--radius);overflow:hidden;display:none;"></div></div>
+                </div>
+                <button class="btn btn-primary mt-16" onclick="KERIFY.runIdVerification()">Scan & Extract Data</button>
+                <div id="idResult" class="card mt-16 hidden">
+                    <h3>Extracted Information</h3>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;" id="idExtractedData"></div>
+                </div>
+            </div>
+            <!-- Liveness -->
+            <div class="page-section" id="page-liveness">
+                <h1 class="page-title">Liveness Detection</h1>
+                <div class="card" style="max-width:600px;text-align:center;">
+                    <h3>Liveness Challenge</h3>
+                    <div style="width:200px;height:200px;border-radius:50%;background:var(--surface-alt);margin:16px auto;display:flex;align-items:center;justify-content:center;font-size:4rem;" id="livenessEmoji">📷</div>
+                    <p id="livenessInstruction">Click "Start" to begin the liveness check</p>
+                    <div class="progress-bar hidden" id="livenessProgress"><div class="progress-bar-fill" style="width:0%;"></div></div>
+                    <button class="btn btn-primary" id="livenessStartBtn" onclick="KERIFY.startLiveness()">Start Liveness Check</button>
+                    <div id="livenessResult" class="verification-result hidden"></div>
+                </div>
+            </div>
+            <!-- Fraud Screening -->
+            <div class="page-section" id="page-fraud-screening">
+                <h1 class="page-title">Fraud Screening</h1>
+                <div class="card" style="max-width:600px;text-align:center;">
+                    <h3>Risk Assessment</h3>
+                    <div class="risk-score-circle risk-low" id="fraudScoreCircle">12</div>
+                    <p style="font-weight:700;">Overall Fraud Score: <span id="fraudScoreLabel">Low Risk</span></p>
+                    <div style="text-align:left;margin-top:16px;">
+                        <p><strong>Device Fingerprint:</strong> <span class="badge badge-success">Trusted</span></p>
+                        <p><strong>IP Reputation:</strong> <span class="badge badge-success">Clean</span></p>
+                        <p><strong>Country Risk:</strong> <span class="badge badge-info">Low</span></p>
+                        <p><strong>Duplicate Detection:</strong> <span class="badge badge-success">No Duplicates</span></p>
+                        <p><strong>Blacklist Check:</strong> <span class="badge badge-success">Clear</span></p>
+                    </div>
+                    <button class="btn btn-primary mt-16" onclick="KERIFY.rerunFraudScreening()">Re-run Screening</button>
+                </div>
+            </div>
+            <!-- Billing -->
+            <div class="page-section" id="page-billing">
+                <h1 class="page-title">Billing & Subscription</h1>
+                <div class="stats-grid">
+                    <div class="stat-card"><div class="stat-icon green">💳</div><div><div class="stat-value">Professional</div><div class="stat-label">Current Plan</div></div></div>
+                    <div class="stat-card"><div class="stat-icon blue">📅</div><div><div class="stat-value">$199</div><div class="stat-label">Monthly Charge</div></div></div>
+                    <div class="stat-card"><div class="stat-icon purple">🔢</div><div><div class="stat-value">3,241</div><div class="stat-label">Verifications Used</div></div></div>
+                </div>
+                <div class="card mt-16"><h3>Transaction History</h3><div class="table-container"><table><thead><tr><th>Date</th><th>Description</th><th>Amount</th><th>Status</th></tr></thead><tbody id="billingTable"></tbody></table></div></div>
+                <button class="btn btn-primary mt-16" onclick="KERIFY.openModal('upgradeModal')">Upgrade Plan</button>
+            </div>
+            <!-- API Management -->
+            <div class="page-section" id="page-api-management">
+                <h1 class="page-title">API Management</h1>
+                <div class="card"><h3>Your API Keys</h3><div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;"><code style="background:var(--surface-alt);padding:10px 16px;border-radius:var(--radius);word-break:break-all;flex:1;" id="apiKeyDisplay">sk_live_••••••••••••••••••••••••</code><button class="btn btn-sm btn-secondary" onclick="KERIFY.copyApiKey()">Copy</button><button class="btn btn-sm btn-danger" onclick="KERIFY.regenerateApiKey()">Regenerate</button></div></div>
+                <div class="card mt-16"><h3>Sample Request</h3><pre style="background:var(--surface-alt);padding:16px;border-radius:var(--radius);overflow-x:auto;font-size:0.8rem;">curl -X POST https://api.kerify.com/v1/verify \\
+                    -H "Authorization: Bearer sk_live_xxx" \\
+                    -F "selfie=@photo.jpg" \\
+                    -F "id_front=@id.jpg"</pre></div>
+            </div>
+            <!-- Reports -->
+            <div class="page-section" id="page-reports">
+                <h1 class="page-title">Reports</h1>
+                <div class="flex-row" style="margin-bottom:16px;align-items:center;flex-wrap:wrap;">
+                    <input class="input" style="max-width:250px;" placeholder="Search reports..." id="reportSearch" oninput="KERIFY.filterReports()">
+                    <select class="input" style="max-width:180px;" id="reportTypeFilter" onchange="KERIFY.filterReports()"><option value="all">All Types</option><option value="verification">Verification</option><option value="fraud">Fraud</option><option value="billing">Billing</option></select>
+                </div>
+                <div class="table-container"><table><thead><tr><th>Report ID</th><th>Type</th><th>Date</th><th>Status</th><th>Action</th></tr></thead><tbody id="reportsTable"></tbody></table></div>
+                <div class="pagination" id="reportsPagination"></div>
+            </div>
+            <!-- Users -->
+            <div class="page-section" id="page-users">
+                <h1 class="page-title">User Management</h1>
+                <div class="table-container"><table><thead><tr><th>Name</th><th>Email</th><th>Company</th><th>Verifications</th><th>Status</th></tr></thead><tbody id="usersTable"></tbody></table></div>
+            </div>
+            <!-- Profile -->
+            <div class="page-section" id="page-profile">
+                <h1 class="page-title">My Profile</h1>
+                <div class="card" style="max-width:600px;">
+                    <div style="text-align:center;margin-bottom:16px;"><div style="width:80px;height:80px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:800;margin:0 auto;">JD</div></div>
+                    <div class="form-group"><label>Full Name</label><input class="input" value="John Doe" id="profileName"></div>
+                    <div class="form-group"><label>Email</label><input class="input" value="demo@kerify.com" disabled></div>
+                    <div class="form-group"><label>Company</label><input class="input" value="Acme Corp" id="profileCompany"></div>
+                    <div class="form-group"><label>Password</label><input class="input" type="password" value="password123" id="profilePassword"></div>
+                    <div class="form-group"><label>MFA</label><select class="input"><option>Disabled</option><option>Enabled (SMS)</option><option>Enabled (Authenticator App)</option></select></div>
+                    <button class="btn btn-primary" onclick="KERIFY.saveProfile()">Save Changes</button>
+                </div>
+            </div>
+            <!-- Settings -->
+            <div class="page-section" id="page-settings">
+                <h1 class="page-title">Settings</h1>
+                <div class="card" style="max-width:600px;">
+                    <div class="form-group"><label>Theme</label><select class="input" id="settingsTheme" onchange="KERIFY.setTheme(this.value)"><option value="light">Light</option><option value="dark">Dark</option></select></div>
+                    <div class="form-group"><label>Language</label><select class="input"><option>English</option><option>Spanish</option><option>French</option><option>German</option></select></div>
+                    <div class="form-group"><label>Email Notifications</label><select class="input"><option>Enabled</option><option>Disabled</option></select></div>
+                    <button class="btn btn-primary" onclick="KERIFY.showToast('Settings saved!','success')">Save Settings</button>
+                </div>
+            </div>
+            <!-- Admin -->
+            <div class="page-section" id="page-admin">
+                <h1 class="page-title">Admin Panel</h1>
+                <div class="stats-grid">
+                    <div class="stat-card"><div class="stat-icon blue">👥</div><div><div class="stat-value">156</div><div class="stat-label">Total Users</div></div></div>
+                    <div class="stat-card"><div class="stat-icon green">🏢</div><div><div class="stat-value">42</div><div class="stat-label">Companies</div></div></div>
+                    <div class="stat-card"><div class="stat-icon purple">💳</div><div><div class="stat-value">890</div><div class="stat-label">Transactions</div></div></div>
+                </div>
+                <div class="card mt-16"><h3>System Logs</h3><div class="table-container"><table><thead><tr><th>Timestamp</th><th>Event</th><th>User</th><th>Details</th></tr></thead><tbody id="adminLogsTable"></tbody></table></div></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ==================== MODALS ==================== -->
+    <div class="modal-overlay hidden" id="modalOverlay" onclick="KERIFY.closeModal(event)">
+        <div class="modal" id="modalContent" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="KERIFY.closeModal()">✕</button>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+    <div class="modal-overlay hidden" id="upgradeModalOverlay" onclick="KERIFY.closeUpgradeModal(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="KERIFY.closeUpgradeModal()">✕</button>
+            <h3>Upgrade Your Plan</h3>
+            <p>Choose a higher tier to unlock more features.</p>
+            <div class="pricing-grid" style="grid-template-columns:1fr 1fr;gap:12px;">
+                <div class="pricing-card"><h3>Professional</h3><div class="pricing-price">$199<span>/mo</span></div><button class="btn btn-primary btn-sm w-full" onclick="KERIFY.upgradePlan('Professional');KERIFY.closeUpgradeModal();">Select</button></div>
+                <div class="pricing-card"><h3>Enterprise</h3><div class="pricing-price">$799<span>/mo</span></div><button class="btn btn-primary btn-sm w-full" onclick="KERIFY.upgradePlan('Enterprise');KERIFY.closeUpgradeModal();">Select</button></div>
+            </div>
+        </div>
+    </div>
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- ==================== SCRIPTS ==================== -->
+    <script>
+        (function() {
+            // ==================== KERIFY NAMESPACE ====================
+            const K = window.KERIFY = {};
+
+            // ==================== STATE ====================
+            K.state = {
+                isLoggedIn: false,
+                user: null,
+                theme: 'light',
+                currentPage: 'dashboard',
+                sidebarOpen: false,
+                notifications: [],
+            };
+
+            // ==================== MOCK DATA ====================
+            K.mockUsers = [
+                { name: 'John Doe', email: 'demo@kerify.com', company: 'Acme Corp', verifications: 247,
+                    status: 'Active' },
+                { name: 'Sarah Chen', email: 'sarah@fintechplus.com', company: 'FinTech Plus', verifications: 1203,
+                    status: 'Active' },
+                { name: 'Marcus Johnson', email: 'marcus@compliancelab.co', company: 'Compliance Lab',
+                    verifications: 89, status: 'Active' },
+                { name: 'Elena Rodriguez', email: 'elena@producthub.io', company: 'Product Hub', verifications: 456,
+                    status: 'Active' },
+                { name: 'Alex Kim', email: 'alex@startupx.com', company: 'StartupX', verifications: 12,
+                    status: 'Suspended' },
+            ];
+            K.mockVerifications = [
+                { date: '2026-06-26 14:32', name: 'John Doe', type: 'Face + ID', confidence: '98.7%',
+                    status: 'Passed' },
+                { date: '2026-06-26 11:15', name: 'Sarah Chen', type: 'Liveness', confidence: '99.2%',
+                status: 'Passed' },
+                { date: '2026-06-25 16:48', name: 'Marcus Johnson', type: 'ID Only', confidence: '95.1%',
+                    status: 'Passed' },
+                { date: '2026-06-25 09:20', name: 'Unknown User', type: 'Face + ID', confidence: '34.5%',
+                    status: 'Failed' },
+            ];
+            K.mockTransactions = [
+                { date: '2026-06-01', desc: 'Monthly Subscription - Professional', amount: '$199.00',
+                    status: 'Paid' },
+                { date: '2026-05-01', desc: 'Monthly Subscription - Professional', amount: '$199.00',
+                status: 'Paid' },
+                { date: '2026-04-01', desc: 'Monthly Subscription - Professional', amount: '$199.00',
+                status: 'Paid' },
+            ];
+            K.mockReports = [
+                { id: 'RPT-001', type: 'verification', date: '2026-06-26', status: 'Complete' },
+                { id: 'RPT-002', type: 'fraud', date: '2026-06-25', status: 'Complete' },
+                { id: 'RPT-003', type: 'billing', date: '2026-06-24', status: 'Pending' },
+                { id: 'RPT-004', type: 'verification', date: '2026-06-23', status: 'Complete' },
+                { id: 'RPT-005', type: 'fraud', date: '2026-06-22', status: 'Complete' },
+            ];
+            K.mockAdminLogs = [
+                { ts: '2026-06-26 14:32:10', event: 'User Login', user: 'john@acme.com',
+                    details: 'IP: 192.168.1.1' },
+                { ts: '2026-06-26 14:15:00', event: 'Verification Completed', user: 'sarah@fintech.com',
+                    details: 'Face match 98.7%' },
+                { ts: '2026-06-26 13:00:00', event: 'API Key Generated', user: 'admin@kerify.com',
+                    details: 'Key: sk_live_***' },
+                { ts: '2026-06-26 12:30:00', event: 'Fraud Alert', user: 'system', details: 'Duplicate attempt' },
+            ];
+
+            // ==================== ROUTER ====================
+            K.router = {
+                navigate: function(page) {
+                    if (['login', 'register', 'forgot-password'].includes(page)) {
+                        K.showAuthPage(page);
+                        return;
+                    }
+                    if (!K.state.isLoggedIn && !['login', 'register', 'forgot-password'].includes(page)) {
+                        K.showAuthPage('login');
+                        K.showToast('Please sign in to continue', 'warning');
+                        return;
+                    }
+                    K.state.currentPage = page;
+                    K.showAppLayout();
+                    K.highlightNav(page);
+                    K.showPageSection(page);
+                    if (page === 'dashboard') K.renderDashboard();
+                    if (page === 'billing') K.renderBilling();
+                    if (page === 'reports') K.renderReports();
+                    if (page === 'users') K.renderUsers();
+                    if (page === 'admin') K.renderAdmin();
+                    if (page === 'verification') K.renderFaceHistory();
+                    if (page === 'api-management') K.renderApiKey();
+                },
+            };
+
+            K.showAuthPage = function(page) {
+                document.getElementById('landingPages').classList.add('hidden');
+                document.getElementById('authPages').style.display = 'flex';
+                document.getElementById('appLayout').classList.remove('active');
+                document.querySelectorAll('#authCard .page-section').forEach(s => s.classList.remove(
+                    'active'));
+                const map = { 'login': 'loginForm', 'register': 'registerForm', 'forgot-password': 'forgotPasswordForm' };
+                const target = map[page] || 'loginForm';
+                document.getElementById(target).classList.add('active');
+            };
+            K.showAppLayout = function() {
+                document.getElementById('landingPages').classList.add('hidden');
+                document.getElementById('authPages').style.display = 'none';
+                document.getElementById('appLayout').classList.add('active');
+            };
+            K.showPageSection = function(page) {
+                document.querySelectorAll('#mainContent .page-section').forEach(s => s.classList.remove(
+                    'active'));
+                const section = document.getElementById('page-' + page);
+                if (section) section.classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            };
+            K.highlightNav = function(page) {
+                document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
+                const link = document.querySelector(`.sidebar-nav a[data-nav="${page}"]`);
+                if (link) link.classList.add('active');
+            };
+
+            // ==================== AUTH ====================
+            K.auth = {
+                login: function(e) {
+                    e.preventDefault();
+                    const email = document.getElementById('loginEmail').value.trim();
+                    const password = document.getElementById('loginPassword').value;
+                    const remember = document.getElementById('rememberMe').checked;
+                    if (!email || !password) { K.showToast('Please fill all fields', 'error'); return; }
+                    if (email === 'demo@kerify.com' && password === 'password123') {
+                        K.state.isLoggedIn = true;
+                        K.state.user = { name: 'John Doe', email: 'demo@kerify.com', company: 'Acme Corp',
+                            initials: 'JD' };
+                        if (remember) localStorage.setItem('kerify_session', JSON.stringify(K.state.user));
+                        sessionStorage.setItem('kerify_active', 'true');
+                        document.getElementById('userAvatarBtn').textContent = 'JD';
+                        K.router.navigate('dashboard');
+                        K.showToast('Welcome back, John!', 'success');
+                    } else if (email && password.length >= 6) {
+                        K.state.isLoggedIn = true;
+                        K.state.user = { name: email.split('@')[0], email, company: 'Demo Co', initials: email[0]
+                                .toUpperCase() + email[1].toUpperCase() };
+                        document.getElementById('userAvatarBtn').textContent = K.state.user.initials;
+                        K.router.navigate('dashboard');
+                        K.showToast('Signed in successfully!', 'success');
+                    } else {
+                        K.showToast('Invalid credentials. Try demo@kerify.com / password123', 'error');
+                    }
+                },
+                register: function(e) {
+                    e.preventDefault();
+                    const name = document.getElementById('regName').value.trim();
+                    const email = document.getElementById('regEmail').value.trim();
+                    const password = document.getElementById('regPassword').value;
+                    const company = document.getElementById('regCompany').value.trim();
+                    if (!name || !email || !password) { K.showToast('Please fill all required fields', 'error'); return; }
+                    if (password.length < 6) { K.showToast('Password must be at least 6 characters', 'error'); return; }
+                    K.state.isLoggedIn = true;
+                    K.state.user = { name, email, company: company || 'N/A', initials: name.split(' ').map(n => n[
+                            0]).join('').toUpperCase().slice(0, 2) };
+                    document.getElementById('userAvatarBtn').textContent = K.state.user.initials;
+                    K.router.navigate('dashboard');
+                    K.showToast('Account created! Welcome to KERIFY!', 'success');
+                },
+                forgotPassword: function(e) {
+                    e.preventDefault();
+                    K.showToast('Password reset link sent to your email!', 'success');
+                    K.router.navigate('login');
+                },
+                logout: function() {
+                    K.state.isLoggedIn = false;
+                    K.state.user = null;
+                    localStorage.removeItem('kerify_session');
+                    sessionStorage.removeItem('kerify_active');
+                    document.getElementById('landingPages').classList.remove('hidden');
+                    document.getElementById('authPages').style.display = 'none';
+                    document.getElementById('appLayout').classList.remove('active');
+                    K.showToast('Signed out successfully', 'info');
+                    window.location.hash = '';
+                },
+                checkSession: function() {
+                    const saved = localStorage.getItem('kerify_session');
+                    const active = sessionStorage.getItem('kerify_active');
+                    if (saved && active) {
+                        try {
+                            K.state.user = JSON.parse(saved);
+                            K.state.isLoggedIn = true;
+                            document.getElementById('userAvatarBtn').textContent = K.state.user.initials ||
+                                'JD';
+                            K.router.navigate('dashboard');
+                        } catch (e) { /* ignore */ }
+                    }
+                },
+            };
+
+            // ==================== DASHBOARD RENDERING ====================
+            K.renderDashboard = function() {
+                document.getElementById('statTotalVerifications').textContent = '1,247';
+                document.getElementById('statFraudAlerts').textContent = '23';
+                const tbody = document.getElementById('recentActivityTable');
+                tbody.innerHTML = K.mockVerifications.map(v =>
+                    `<tr><td>${v.name}</td><td>${v.type}</td><td><span class="badge ${v.status==='Passed'?'badge-success':'badge-danger'}">${v.status}</span></td><td>${v.date}</td></tr>`
+                ).join('');
+                K.drawChartVerifications();
+                K.drawChartApiUsage();
+            };
+            K.drawChartVerifications = function() {
+                const canvas = document.getElementById('chartVerifications');
+                if (!canvas) return;
+                const ctx = canvas.getContext('2d');
+                const W = canvas.parentElement.clientWidth;
+                const H = 260;
+                canvas.width = W * (window.devicePixelRatio || 1);
+                canvas.height = H * (window.devicePixelRatio || 1);
+                canvas.style.width = W + 'px';
+                canvas.style.height = H + 'px';
+                ctx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
+                const data = [180, 210, 195, 240, 260, 220, 280, 250, 290, 310, 270, 300];
+                const months = ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
+                const max = Math.max(...data);
+                const barW = (W - 80) / data.length - 8;
+                ctx.clearRect(0, 0, W, H);
+                ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-muted').trim();
+                ctx.font = '11px system-ui';
+                ctx.textAlign = 'center';
+                data.forEach((v, i) => {
+                    const x = 50 + i * ((W - 80) / data.length);
+                    const barH = (v / max) * (H - 60);
+                    const y = H - 30 - barH;
+                    const grad = ctx.createLinearGradient(x, y, x, H - 30);
+                    grad.addColorStop(0, '#6366f1');
+                    grad.addColorStop(1, '#a855f7');
+                    ctx.fillStyle = grad;
+                    ctx.beginPath();
+                    ctx.roundRect(x, y, barW, barH, [4, 4, 0, 0]);
+                    ctx.fill();
+                    ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-muted')
+                        .trim();
+                    ctx.fillText(months[i], x + barW / 2, H - 10);
+                });
+            };
+            K.drawChartApiUsage = function() {
+                const canvas = document.getElementById('chartApiUsage');
+                if (!canvas) return;
+                const ctx = canvas.getContext('2d');
+                const W = canvas.parentElement.clientWidth;
+                const H = 260;
+                canvas.width = W * (window.devicePixelRatio || 1);
+                canvas.height = H * (window.devicePixelRatio || 1);
+                canvas.style.width = W + 'px';
+                canvas.style.height = H + 'px';
+                ctx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
+                const data = [320, 450, 380, 520, 490, 580, 610, 550, 630, 700, 650, 720];
+                ctx.clearRect(0, 0, W, H);
+                ctx.strokeStyle = '#6366f1';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                const max = Math.max(...data);
+                data.forEach((v, i) => {
+                    const x = 40 + i * ((W - 60) / (data.length - 1));
+                    const y = H - 30 - (v / max) * (H - 60);
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                });
+                ctx.stroke();
+                ctx.fillStyle = 'rgba(99,102,241,0.08)';
+                ctx.lineTo(40 + (data.length - 1) * ((W - 60) / (data.length - 1)), H - 30);
+                ctx.lineTo(40, H - 30);
+                ctx.closePath();
+                ctx.fill();
+                data.forEach((v, i) => {
+                    const x = 40 + i * ((W - 60) / (data.length - 1));
+                    const y = H - 30 - (v / max) * (H - 60);
+                    ctx.fillStyle = '#6366f1';
+                    ctx.beginPath();
+                    ctx.arc(x, y, 5, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.fillStyle = '#fff';
+                    ctx.beginPath();
+                    ctx.arc(x, y, 2.5, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+            };
+
+            // ==================== VERIFICATION ====================
+            K.previewImage = function(event, containerId) {
+                const file = event.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const container = document.getElementById(containerId);
+                    container.style.display = 'block';
+                    container.innerHTML =
+                        `<img src="${e.target.result}" style="max-width:100%;border-radius:var(--radius-lg);" alt="Preview">`;
+                };
+                reader.readAsDataURL(file);
+            };
+            K.runFaceVerification = function() {
+                const resultDiv = document.getElementById('faceResult');
+                const progressDiv = document.getElementById('faceProgress');
+                const progressFill = progressDiv.querySelector('.progress-bar-fill');
+                resultDiv.classList.add('hidden');
+                progressDiv.classList.remove('hidden');
+                progressFill.style.width = '0%';
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += Math.random() * 30;
+                    if (progress >= 100) {
+                        progress = 100;
+                        clearInterval(interval);
+                        progressFill.style.width = '100%';
+                        setTimeout(() => {
+                            progressDiv.classList.add('hidden');
+                            resultDiv.classList.remove('hidden');
+                            resultDiv.className = 'verification-result pass';
+                            resultDiv.textContent =
+                                '✅ Face Verified Successfully! Confidence: 98.7%';
+                            K.showToast('Face verification completed!', 'success');
+                        }, 400);
+                    }
+                    progressFill.style.width = Math.min(progress, 100) + '%';
+                }, 200);
+            };
+            K.renderFaceHistory = function() {
+                const tbody = document.getElementById('faceHistoryTable');
+                tbody.innerHTML = K.mockVerifications.filter(v => v.type.includes('Face')).map(v =>
+                    `<tr><td>${v.date}</td><td>${v.name}</td><td>${v.confidence}</td><td><span class="badge ${v.status==='Passed'?'badge-success':'badge-danger'}">${v.status}</span></td></tr>`
+                ).join('');
+            };
+            K.runIdVerification = function() {
+                const resultDiv = document.getElementById('idResult');
+                const dataDiv = document.getElementById('idExtractedData');
+                resultDiv.classList.remove('hidden');
+                const extracted = [
+                    { label: 'Full Name', value: 'Johnathan M. Doe' },
+                    { label: 'Date of Birth', value: '1990-05-15' },
+                    { label: 'ID Number', value: 'DL-9847-3621-USA' },
+                    { label: 'Expiry Date', value: '2028-05-15' },
+                    { label: 'Nationality', value: 'United States' },
+                    { label: 'Document Type', value: 'Driver License' },
+                ];
+                dataDiv.innerHTML = extracted.map(f =>
+                    `<div><strong style="font-size:0.8rem;color:var(--text-muted);">${f.label}</strong><p style="font-weight:600;">${f.value}</p></div>`
+                ).join('');
+                K.showToast('ID scanned and data extracted!', 'success');
+            };
+            K.startLiveness = function() {
+                const emoji = document.getElementById('livenessEmoji');
+                const instruction = document.getElementById('livenessInstruction');
+                const progressDiv = document.getElementById('livenessProgress');
+                const progressFill = progressDiv.querySelector('.progress-bar-fill');
+                const resultDiv = document.getElementById('livenessResult');
+                const btn = document.getElementById('livenessStartBtn');
+                btn.disabled = true;
+                resultDiv.classList.add('hidden');
+                progressDiv.classList.remove('hidden');
+                progressFill.style.width = '0%';
+                const steps = [
+                    { emoji: '😐', text: 'Keep your face centered...', progress: 20 },
+                    { emoji: '😉', text: 'Please blink...', progress: 40 },
+                    { emoji: '😊', text: 'Now smile!', progress: 65 },
+                    { emoji: '↔️', text: 'Turn your head slightly right...', progress: 85 },
+                    { emoji: '✅', text: 'Liveness confirmed!', progress: 100 },
+                ];
+                let i = 0;
+
+                function nextStep() {
+                    if (i >= steps.length) {
+                        progressDiv.classList.add('hidden');
+                        resultDiv.classList.remove('hidden');
+                        resultDiv.className = 'verification-result pass';
+                        resultDiv.textContent = '✅ Liveness Detection Passed!';
+                        btn.disabled = false;
+                        K.showToast('Liveness check passed!', 'success');
+                        return;
+                    }
+                    const step = steps[i];
+                    emoji.textContent = step.emoji;
+                    instruction.textContent = step.text;
+                    progressFill.style.width = step.progress + '%';
+                    i++;
+                    setTimeout(nextStep, 900 + Math.random() * 600);
+                }
+                nextStep();
+            };
+            K.rerunFraudScreening = function() {
+                const scores = [8, 15, 22, 35, 55, 72, 5, 18, 28, 42];
+                const score = scores[Math.floor(Math.random() * scores.length)];
+                const circle = document.getElementById('fraudScoreCircle');
+                const label = document.getElementById('fraudScoreLabel');
+                circle.textContent = score;
+                circle.className = 'risk-score-circle';
+                if (score < 25) { circle.classList.add('risk-low');
+                    label.textContent = 'Low Risk'; } else if (score < 50) { circle.classList.add('risk-medium');
+                    label.textContent = 'Medium Risk'; } else { circle.classList.add('risk-high');
+                    label.textContent = 'High Risk'; }
+                K.showToast('Fraud screening updated!', 'info');
+            };
+
+            // ==================== BILLING ====================
+            K.renderBilling = function() {
+                document.getElementById('billingTable').innerHTML = K.mockTransactions.map(t =>
+                    `<tr><td>${t.date}</td><td>${t.desc}</td><td>${t.amount}</td><td><span class="badge badge-success">${t.status}</span></td></tr>`
+                ).join('');
+            };
+            K.openModal = function(id) {
+                if (id === 'upgradeModal') document.getElementById('upgradeModalOverlay').classList.remove('hidden');
+            };
+            K.closeUpgradeModal = function(e) {
+                if (e && e.target !== document.getElementById('upgradeModalOverlay')) return;
+                document.getElementById('upgradeModalOverlay').classList.add('hidden');
+            };
+            K.upgradePlan = function(plan) {
+                K.showToast(`Plan upgraded to ${plan}!`, 'success');
+            };
+
+            // ==================== REPORTS ====================
+            K.renderReports = function(filter = 'all', search = '') {
+                let data = [...K.mockReports];
+                if (filter !== 'all') data = data.filter(r => r.type === filter);
+                if (search) data = data.filter(r => r.id.toLowerCase().includes(search.toLowerCase()) || r.type
+                    .toLowerCase().includes(search.toLowerCase()));
+                document.getElementById('reportsTable').innerHTML = data.map(r =>
+                    `<tr><td>${r.id}</td><td><span class="badge badge-info">${r.type}</span></td><td>${r.date}</td><td><span class="badge ${r.status==='Complete'?'badge-success':'badge-warning'}">${r.status}</span></td><td><button class="btn btn-sm btn-secondary" onclick="KERIFY.showToast('Report download simulated','info')">Download</button></td></tr>`
+                ).join('');
+            };
+            K.filterReports = function() {
+                const filter = document.getElementById('reportTypeFilter').value;
+                const search = document.getElementById('reportSearch').value;
+                K.renderReports(filter, search);
+            };
+
+            // ==================== USERS ====================
+            K.renderUsers = function() {
+                document.getElementById('usersTable').innerHTML = K.mockUsers.map(u =>
+                    `<tr><td>${u.name}</td><td>${u.email}</td><td>${u.company}</td><td>${u.verifications}</td><td><span class="badge ${u.status==='Active'?'badge-success':'badge-danger'}">${u.status}</span></td></tr>`
+                ).join('');
+            };
+
+            // ==================== ADMIN ====================
+            K.renderAdmin = function() {
+                document.getElementById('adminLogsTable').innerHTML = K.mockAdminLogs.map(l =>
+                    `<tr><td>${l.ts}</td><td>${l.event}</td><td>${l.user}</td><td>${l.details}</td></tr>`).join('');
+            };
+
+            // ==================== API MANAGEMENT ====================
+            K.renderApiKey = function() {
+                document.getElementById('apiKeyDisplay').textContent = 'sk_live_' + Array(32).fill(0).map(() =>
+                    'abcdefghijklmnopqrstuvwxyz0123456789' [Math.floor(Math.random() * 36)]).join('');
+            };
+            K.copyApiKey = function() {
+                const text = document.getElementById('apiKeyDisplay').textContent;
+                navigator.clipboard.writeText(text).then(() => K.showToast('API key copied!', 'success')).catch(() => K
+                    .showToast('Failed to copy', 'error'));
+            };
+            K.regenerateApiKey = function() {
+                if (confirm('Regenerate API key? The old key will stop working immediately.')) {
+                    K.renderApiKey();
+                    K.showToast('API key regenerated!', 'success');
+                }
+            };
+
+            // ==================== PROFILE & SETTINGS ====================
+            K.saveProfile = function() {
+                const name = document.getElementById('profileName').value;
+                const company = document.getElementById('profileCompany').value;
+                if (K.state.user) {
+                    K.state.user.name = name;
+                    K.state.user.company = company;
+                    K.state.user.initials = name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+                    document.getElementById('userAvatarBtn').textContent = K.state.user.initials;
+                }
+                K.showToast('Profile saved!', 'success');
+            };
+            K.setTheme = function(theme) {
+                K.state.theme = theme;
+                document.documentElement.setAttribute('data-theme', theme);
+                localStorage.setItem('kerify_theme', theme);
+                document.getElementById('settingsTheme').value = theme;
+                setTimeout(() => { K.drawChartVerifications();
+                    K.drawChartApiUsage(); }, 100);
+            };
+
+            // ==================== MODAL SYSTEM ====================
+            K.closeModal = function(e) {
+                if (e && e.target !== document.getElementById('modalOverlay')) return;
+                document.getElementById('modalOverlay').classList.add('hidden');
+            };
+            K.openGenericModal = function(title, content) {
+                document.getElementById('modalBody').innerHTML =
+                    `<h3>${title}</h3><p>${content}</p><button class="btn btn-primary mt-16" onclick="KERIFY.closeModal()">Close</button>`;
+                document.getElementById('modalOverlay').classList.remove('hidden');
+            };
+
+            // ==================== TOAST NOTIFICATIONS ====================
+            K.showToast = function(message, type = 'info') {
+                const container = document.getElementById('toastContainer');
+                const toast = document.createElement('div');
+                toast.className = `toast toast-${type}`;
+                toast.textContent = message;
+                container.appendChild(toast);
+                setTimeout(() => { toast.style.opacity = '0';
+                    toast.style.transform = 'translateX(100%)';
+                    setTimeout(() => toast.remove(), 300); }, 3500);
+            };
+
+            // ==================== SEARCH ====================
+            K.search = function(query) {
+                if (!query || query.length < 2) return;
+                const q = query.toLowerCase();
+                if (K.state.currentPage === 'reports') {
+                    K.renderReports(document.getElementById('reportTypeFilter')?.value || 'all', q);
+                }
+                if (K.state.currentPage === 'users') {
+                    const filtered = K.mockUsers.filter(u => u.name.toLowerCase().includes(q) || u.email
+                        .toLowerCase().includes(q) || u.company.toLowerCase().includes(q));
+                    document.getElementById('usersTable').innerHTML = filtered.map(u =>
+                        `<tr><td>${u.name}</td><td>${u.email}</td><td>${u.company}</td><td>${u.verifications}</td><td><span class="badge ${u.status==='Active'?'badge-success':'badge-danger'}">${u.status}</span></td></tr>`
+                    ).join('');
+                }
+            };
+
+            // ==================== NOTIFICATIONS ====================
+            K.toggleNotifications = function() {
+                const dot = document.getElementById('notifDot');
+                dot.style.display = dot.style.display === 'none' ? 'block' : 'none';
+                K.showToast('You have 3 unread notifications', 'info');
+            };
+
+            // ==================== CONTACT FORM ====================
+            K.handleContactSubmit = function(e) {
+                e.preventDefault();
+                K.showToast('Message sent! We\'ll get back to you soon.', 'success');
+                e.target.reset();
+            };
+
+            // ==================== EVENT LISTENERS ====================
+            document.getElementById('themeToggle').addEventListener('click', () => {
+                const newTheme = K.state.theme === 'light' ? 'dark' : 'light';
+                K.setTheme(newTheme);
+            });
+            document.getElementById('hamburgerBtn').addEventListener('click', () => {
+                document.getElementById('navLinks').classList.toggle('open');
+            });
+            document.getElementById('sidebarToggle').addEventListener('click', () => {
+                K.state.sidebarOpen = !K.state.sidebarOpen;
+                document.getElementById('sidebar').classList.toggle('open', K.state.sidebarOpen);
+            });
+            document.querySelectorAll('.sidebar-nav a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const page = this.getAttribute('data-nav');
+                    if (page) K.router.navigate(page);
+                    if (window.innerWidth <= 1024) {
+                        K.state.sidebarOpen = false;
+                        document.getElementById('sidebar').classList.remove('open');
+                    }
+                });
+            });
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 1024) {
+                    document.getElementById('sidebar').classList.remove('open');
+                    K.state.sidebarOpen = false;
+                }
+                if (K.state.currentPage === 'dashboard' && K.state.isLoggedIn) {
+                    setTimeout(() => { K.drawChartVerifications();
+                        K.drawChartApiUsage(); }, 200);
+                }
+            });
+            window.addEventListener('hashchange', () => {
+                const hash = window.location.hash.replace('#', '');
+                if (hash && K.state.isLoggedIn) K.router.navigate(hash);
+            });
+
+            // ==================== INITIALIZATION ====================
+            K.init = function() {
+                const savedTheme = localStorage.getItem('kerify_theme') || 'light';
+                K.setTheme(savedTheme);
+                document.getElementById('settingsTheme').value = savedTheme;
+                K.auth.checkSession();
+                if (!K.state.isLoggedIn) {
+                    document.getElementById('landingPages').classList.remove('hidden');
+                    document.getElementById('authPages').style.display = 'none';
+                    document.getElementById('appLayout').classList.remove('active');
+                }
+                // Handle responsive sidebar toggle visibility
+                const sidebarToggle = document.getElementById('sidebarToggle');
+                if (window.innerWidth <= 1024) sidebarToggle.style.display = 'flex';
+                else sidebarToggle.style.display = 'none';
+                window.addEventListener('resize', () => {
+                    if (window.innerWidth <= 1024) sidebarToggle.style.display = 'flex';
+                    else sidebarToggle.style.display = 'none';
+                });
+                // Initial render for dashboard if logged in
+                if (K.state.isLoggedIn) {
+                    K.renderDashboard();
+                    K.renderBilling();
+                    K.renderReports();
+                    K.renderUsers();
+                    K.renderAdmin();
+                    K.renderFaceHistory();
+                    K.renderApiKey();
+                }
+                console.log('KERIFY initialized successfully.');
+            };
+            K.init();
+        })();
+    </script>
+</body>
+</html>
